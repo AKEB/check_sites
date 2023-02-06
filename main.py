@@ -56,10 +56,12 @@ def check_site(site_uri: str):
         }
         response = requests.get(site_uri, verify=False, headers=headers, timeout=(10, 10))
         if not response or response.status_code not in [200, 201, 301, 302]:
+            print(response.status_code if response else "Not Response")
             check_result(site_uri, False)
         else:
             check_result(site_uri, True)
     except Exception as e:
+        print("Exception: " + str(e))
         check_result(site_uri, False)
 
 
