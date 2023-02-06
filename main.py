@@ -54,7 +54,7 @@ def check_site(site_uri: str):
             'Accept-language': 'en',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15'
         }
-        response = requests.get(site_uri, verify=False, headers=headers, timeout=(3, 6))
+        response = requests.get(site_uri, verify=False, headers=headers, timeout=(10, 10))
         if not response or response.status_code not in [200, 201, 301, 302]:
             check_result(site_uri, False)
         else:
