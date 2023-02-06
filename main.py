@@ -20,8 +20,12 @@ def telegram_bot_sendtext(bot_message):
     bot_token = '309690176:AAG3eLnw2uLUyojkwE_fnj9xRZjDxzJnQuQ'
     bot_chatID = '160968329'
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
-    response = requests.get(send_text)
-    return response.json()
+    try:
+        response = requests.get(send_text)
+        response.json()
+        return True
+    except Exception:
+        return False
 
 
 def signal_handler(signal, frame):
@@ -37,8 +41,8 @@ def check_result(site_uri: str, status: bool):
             message = "🚫 " + site_uri + " не доступен!"
         else:
             message = "✅ " + site_uri + " доступен!"
-        telegram_bot_sendtext(message)
-        cache['time'] = time.time()
+        if telegram_bot_sendtext(message):
+            cache['time'] = time.time()
     cache['status'] = status
     caches[key] = cache
 
