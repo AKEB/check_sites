@@ -59,7 +59,7 @@ def check_site(site_uri: str):
             check_result(site_uri, False)
         else:
             check_result(site_uri, True)
-    except requests.exceptions.Timeout as e:
+    except Exception as e:
         check_result(site_uri, False)
 
 
