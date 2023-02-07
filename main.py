@@ -16,7 +16,7 @@ sites = [
 caches = {}
 
 
-def telegram_bot_sendtext(bot_message):
+def telegram_bot_send_text(bot_message):
     bot_token = '309690176:AAG3eLnw2uLUyojkwE_fnj9xRZjDxzJnQuQ'
     bot_chatID = '160968329'
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
@@ -35,13 +35,17 @@ def signal_handler(signal, frame):
 
 def check_result(site_uri: str, status: bool):
     key = hashlib.md5(site_uri.encode('utf-8')).hexdigest()
-    cache = caches[key] if key in caches else {'status': None, 'time': 0}
+    cache = caches[key] if key in caches else {'status': None, 'time': 0, 'error_count': 0}
+    if not status:
+        cache['error_count'] += 1
+    else:
+        cache['error_count'] = 0
     if ('status' not in cache or cache['status'] != status) or (not status and cache['time'] < time.time() - 300):
         if not status:
             message = "🚫 " + site_uri + " не доступен!"
         else:
             message = "✅ " + site_uri + " доступен!"
-        if telegram_bot_sendtext(message):
+        if cache['error_count'] > 1 and telegram_bot_send_text(message):
             cache['time'] = time.time()
     cache['status'] = status
     caches[key] = cache
