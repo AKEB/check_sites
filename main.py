@@ -2,8 +2,10 @@ import requests
 import time
 import signal
 import sys
+import os
 import hashlib
 from urllib3.exceptions import InsecureRequestWarning
+import csv
 
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
@@ -17,7 +19,7 @@ sites = [
     'https://home.akeb.ru/',
     'https://books.akeb.ru/',
     'https://drive.akeb.ru/',
-    'https://grafana.akeb.ru/',
+    # 'https://grafana.akeb.ru/',
     'https://keys.akeb.ru/',
     'https://numbers.akeb.ru/',
     'https://photo.akeb.ru/',
@@ -26,7 +28,7 @@ sites = [
     'https://wifi.akeb.ru/',
 
     'https://mbezhanova.ru/',
-    'https://shop.mbezhanova.ru/',
+    # 'https://shop.mbezhanova.ru/',
 
     'https://ats.my.games/',
 ]
@@ -88,8 +90,24 @@ def check_site(site_uri: str):
         check_result(site_uri, False)
 
 
+def read_csv_file():
+    sites = []
+    base_path = os.path.abspath(".")
+    base_path + '/sites.csv'
+    with open(base_path + '/sites.csv', newline="\n") as fp_read:
+        reader = csv.reader(fp_read, delimiter=";", quotechar='"')
+        for row in reader:
+            if len(row) < 1:
+                continue
+            if len(str(row[0])) < 3:
+                continue
+            sites.append(row[0])
+
+
 signal.signal(signal.SIGINT, signal_handler)
 while True:
+    read_csv_file()
+    print(sites)
     for site_uri in sites:
         check_site(site_uri)
-    time.sleep(5)
+    time.sleep(10)
