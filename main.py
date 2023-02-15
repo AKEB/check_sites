@@ -9,7 +9,25 @@ requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 
 sites = [
+    'https://nginx.local.akeb.ru/',
+    'https://pve.local.akeb.ru/',
+    'https://portainer.local.akeb.ru/',
+
     'https://akeb.ru/',
+    'https://home.akeb.ru/',
+    'https://books.akeb.ru/',
+    'https://drive.akeb.ru/',
+    'https://grafana.akeb.ru/',
+    'https://keys.akeb.ru/',
+    'https://numbers.akeb.ru/',
+    'https://photo.akeb.ru/',
+    'https://smart.akeb.ru/',
+    'https://torrent.akeb.ru/',
+    'https://wifi.akeb.ru/',
+
+    'https://mbezhanova.ru/',
+    'https://shop.mbezhanova.ru/',
+
     'https://ats.my.games/',
 ]
 
