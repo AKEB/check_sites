@@ -58,9 +58,10 @@ def check_result(site_uri: str, status: bool):
         cache['error_count'] += 1
     else:
         cache['error_count'] = 0
+
     if ('status' not in cache or cache['status'] != status) or (not status and cache['time'] < time.time() - 300):
         if not status:
-            message = "🚫 " + site_uri + " не доступен!" if cache['error_count'] > 1 else ""
+            message = "🚫 " + site_uri + " не доступен!" if cache['error_count'] > 0 else ""
         else:
             message = "✅ " + site_uri + " доступен!"
         if message and telegram_bot_send_text(message):
